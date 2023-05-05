@@ -2,13 +2,8 @@
 
 
 from .piece import *
-from enum import Enum
 from .dame import *
-
-
-class Orientation(Enum):
-    NORD = 1
-    SUD = 0
+from .orientationPiece import *
 
 
 class Pion(Piece):
@@ -23,8 +18,8 @@ class Pion(Piece):
 
         super().se_deplacer(mouvement)
 
-        if(self.orientation == Orientation.NORD and self.location.y == 0 \
-           or self.orientation == Orientation.SUD and self.location.y == self.location.plateau.height-1):
+        if(self.orientation == OrientationPiece.NORD and self.location.y == 0 \
+           or self.orientation == OrientationPiece.SUD and self.location.y == self.location.plateau.height-1):
             self.mourir()
             self.location.contenu = Dame(self.location, self.orientation)
 
@@ -39,7 +34,7 @@ class Pion(Piece):
 
             if self.location.plateau.coord_valide(destY, destX):
                 if self.location.plateau.plateau[destY][destX].contenu == None:
-                    if self.orientation == Orientation.NORD and i < 0 or self.orientation == Orientation.SUD and i > 0:
+                    if self.orientation == OrientationPiece.NORD and i < 0 or self.orientation == OrientationPiece.SUD and i > 0:
                         res.append((self.location.plateau.plateau[destY][destX], None))
                 elif self.location.plateau.plateau[destY][destX].contenu.orientation != self.orientation:
                     if self.location.plateau.coord_valide(destY+i, destX+j) and self.location.plateau.plateau[destY+i][destX+j].contenu == None:
