@@ -13,7 +13,8 @@ from .fenetreJeu import *
 class FenetreJeu:
     def __init__(self, plateau_height, plateau_width, comportement_grille, comportement_fin_tour):
         self.fenetre = Tk()
-        self.fenetre.title("Jeu de dames")
+        self.fenetre.geometry(RESOLUTION_FENETRE_JEU)
+        self.fenetre.title(TITRE_FENETRE)
         self.frame_jeu = Frame(self.fenetre, borderwidth=2, relief=GROOVE)
         self.frame_jeu.pack(side=LEFT)
         self.frame_texte = Frame(self.fenetre, borderwidth=2, relief=GROOVE)

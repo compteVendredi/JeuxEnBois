@@ -7,3 +7,7 @@ class CaseOccupeeException(Exception):
 
 class MouvementIllegalException(Exception):
     pass
+
+
+class PieceMorteException(Exception):
+    pass

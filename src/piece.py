@@ -5,7 +5,7 @@ from .exception import *
 
 
 class Piece:
-    def __init__(self, location):
+    def __init__(self, location, orientation):
         """
         Instancie une pièce 
 
@@ -13,6 +13,8 @@ class Piece:
             location: Contient la location de la pièce (la case) 
         """
         self.location = location
+        self.orientation = orientation
+        self.estMort = False
 
 
     def se_deplacer(self, mouvement):
@@ -20,6 +22,8 @@ class Piece:
         Remarque un mouvement se décompose de cette manière : (location, action)
         action qui est en général la pièce qui va se faire manger
         """     
+        if(self.estMort):
+            raise PieceMorteException("Une pièce morte essaye de se déplacer par elle-même")
         if(mouvement not in self.mouvement_possible()):
             raise MouvementIllegalException("MouvementIllegal.")
 
@@ -32,6 +36,7 @@ class Piece:
 
 
     def mourir(self):
+        self.estMort = True
         self.location.contenu = None
 
 

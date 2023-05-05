@@ -7,8 +7,7 @@ from .exception import *
 
 class Dame(Piece):
     def __init__(self, location, orientation):
-        super().__init__(location)
-        self.orientation = orientation
+        super().__init__(location, orientation)
 
 
     def se_deplacer(self, mouvement):

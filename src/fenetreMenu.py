@@ -2,12 +2,13 @@
 
 
 from tkinter import * 
+from .constante import *
 
 
 class FenetreMenu():
     def __init__(self, modeJcJ, modeJcO):
         self.fenetre = Tk()
-        self.fenetre.title("Jeu de dames")
+        self.fenetre.title(TITRE_FENETRE)
         self.frame_jeu = Frame(self.fenetre, borderwidth=2, relief=GROOVE)
         self.frame_jeu.pack(side=LEFT)
         self.frame_texte = Frame(self.fenetre, borderwidth=2, relief=GROOVE)
