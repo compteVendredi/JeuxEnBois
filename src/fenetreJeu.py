@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
 
-from tkinter import messagebox
 from .plateau import *
 from .pion import *
-from enum import Enum
 from tkinter import * 
 from .pion import *
 from .constante import *
 from .dame import *
-from .fenetre import *
+from .fenetreJeu import *
 
 
-class Fenetre:
+class FenetreJeu:
     def __init__(self, plateau_height, plateau_width, comportement_grille, comportement_fin_tour):
         self.fenetre = Tk()
         self.fenetre.title("Jeu de dames")
@@ -47,5 +45,5 @@ class Fenetre:
         self.etatPartie.config(text=texte)
                                   
                                   
-    def lancer(self):
+    def lancerFenetreJeu(self):
         self.fenetre.mainloop()

@@ -6,7 +6,7 @@ from tkinter import *
 from .pion import *
 from .constante import *
 from .dame import *
-from .fenetre import *
+from .fenetreJeu import *
 from .etatFenetre import *
 
 

@@ -5,20 +5,27 @@
 from tkinter import messagebox
 from .plateau import *
 from .pion import *
-from enum import Enum
 from tkinter import * 
 from .pion import *
 from .constante import *
 from .dame import *
-from .fenetre import *
+from .fenetreJeu import *
 from .gestionGrille import *
 from .etatFenetre import *
 from .etatJeu import *
+from .fenetreMenu import *
 
 
 class GestionJeu:
 
     def __init__(self):
+        self.fenetre = FenetreMenu(self.modeJcJ, self.modeJcJ)  
+
+
+    def modeJcJ(self):
+        
+        self.fenetre.fermerFenetre()
+        
         self.plateau = Plateau(10,10)
         self.etatJeu  = EtatJeu()             
 
@@ -26,15 +33,16 @@ class GestionJeu:
         
         self.gestionGrille = GestionGrille(self.plateau, None, self.etatJeu)
         
-        self.fenetre = Fenetre(self.plateau.height, self.plateau.width, self.gestionGrille.interaction_grille, self.fin_tour)
+        self.fenetre = FenetreJeu(self.plateau.height, self.plateau.width, self.gestionGrille.interaction_grille, self.fin_tour)
 
         self.gestionGrille.setFenetre(self.fenetre)
 
         self.gestionGrille.actualiserPlateau()
 
         self.etatJeu.tourFini = True
-        self.fin_tour()     
-
+        self.fin_tour() 
+        self.fenetre.lancerFenetreJeu()
+        
 
     def creer_plateau(self):
         for j in range(0,self.plateau.width,2):
@@ -70,4 +78,4 @@ class GestionJeu:
 
 
     def lancer(self):
-        self.fenetre.lancer()
+        self.fenetre.lancerFenetreMenu()
