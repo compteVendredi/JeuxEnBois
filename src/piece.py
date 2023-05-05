@@ -15,6 +15,7 @@ class Piece:
         self.location = location
         self.orientation = orientation
         self.estMort = False
+        self.serieEnCours = False
 
 
     def se_deplacer(self, mouvement):
@@ -32,6 +33,7 @@ class Piece:
         self.location.contenu = self
 
         if mouvement[1] != None:
+            self.serieEnCours = True
             mouvement[1].mourir()
 
 

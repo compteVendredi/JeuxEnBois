@@ -56,7 +56,7 @@ class GestionGrille():
             self.actualiserPlateau()
 
             if self.etatJeu.serieEnCours:
-                self.etatJeu.mouvementPossible = list(filter(lambda x: x[1] != None, self.etatJeu.pieceSelectionnee.mouvement_possible()))
+                self.etatJeu.mouvementPossible = self.etatJeu.pieceSelectionnee.mouvement_possible()
                 for iMvt in self.etatJeu.mouvementPossible:
                     self.fenetre.setPlateauBouton(iMvt[0].y,iMvt[0].x,AFFICHAGE_MOUVEMENT_POSSIBLE, COULEUR_MOUVEMENT_POSSIBLE) 
             else:

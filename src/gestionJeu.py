@@ -64,17 +64,18 @@ class GestionJeu:
 
     def creer_plateau(self):
         for j in range(0,self.plateau.width,2):
-            self.plateau.plateau[0][j+1].contenu = Pion(self.plateau.plateau[0][j+1], OrientationPiece.SUD)
-            self.plateau.plateau[1][j].contenu = Pion(self.plateau.plateau[1][j], OrientationPiece.SUD)
-            self.etatJeu.nbNord += 2
-
-            self.plateau.plateau[self.plateau.height-2][j+1].contenu = Pion(self.plateau.plateau[self.plateau.height-2][j+1], OrientationPiece.NORD)
-            self.plateau.plateau[self.plateau.height-1][j].contenu = Pion(self.plateau.plateau[self.plateau.height-1][j], OrientationPiece.NORD)
-            self.etatJeu.nbSud += 2 
-            
-            self.listePiece += [self.plateau.plateau[0][j+1].contenu]+[self.plateau.plateau[1][j].contenu]\
-                                   +[self.plateau.plateau[self.plateau.height-2][j+1].contenu]\
-                                       +[self.plateau.plateau[self.plateau.height-1][j].contenu]
+            for i in range(0, self.plateau.height, 1):
+                camp = None
+                if i < 4:
+                    self.etatJeu.nbNord += 1
+                    camp = OrientationPiece.SUD
+                elif i > 5:
+                    self.etatJeu.nbSud += 1 
+                    camp = OrientationPiece.NORD
+                else:
+                    continue
+                self.plateau.plateau[i][j+1-i%2].contenu = Pion(self.plateau.plateau[i][j+1-i%2], camp)
+                self.listePiece += [self.plateau.plateau[i][j+1-i%2].contenu]
                                       
 
 

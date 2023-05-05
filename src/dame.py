@@ -45,4 +45,9 @@ class Dame(Piece):
                     terminaison[indice] = True                              
             k += 1
 
+        if self.serieEnCours:
+            res = list(filter(lambda x: x[1] != None, res))
+            if res == []:
+                self.serieEnCours = False
+
         return res    
