@@ -39,9 +39,12 @@ class Pion(Piece):
                     if self.location.plateau.coord_valide(destY+i, destX+j) and self.location.plateau.plateau[destY+i][destX+j].contenu == None:
                         res.append((self.location.plateau.plateau[destY+i][destX+j], self.location.plateau.plateau[destY][destX].contenu))                                
 
+        prise_obligatoire = list(filter(lambda x: x[1] != None, res))
+        if prise_obligatoire != []:
+            res = prise_obligatoire
+
         if self.serieEnCours:
-            res = list(filter(lambda x: x[1] != None, res))
-            if res == []:
+            if prise_obligatoire == []:
                 self.serieEnCours = False
                 
         return res       

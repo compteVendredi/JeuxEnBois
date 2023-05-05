@@ -45,9 +45,12 @@ class Dame(Piece):
                     terminaison[indice] = True                              
             k += 1
 
+        prise_obligatoire = list(filter(lambda x: x[1] != None, res))
+        if prise_obligatoire != []:
+            res = prise_obligatoire
+
         if self.serieEnCours:
-            res = list(filter(lambda x: x[1] != None, res))
-            if res == []:
+            if prise_obligatoire == []:
                 self.serieEnCours = False
 
         return res    

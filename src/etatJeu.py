@@ -14,4 +14,5 @@ class EtatJeu():
         self.tourFini = False
         self.tour = OrientationPiece.NORD
         self.nbNord = 0
-        self.nbSud = 0          
+        self.nbSud = 0       
+        self.priseObligatoire = []   

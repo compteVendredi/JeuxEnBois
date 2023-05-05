@@ -38,7 +38,7 @@ class GestionJeu:
 
         self.creer_plateau()
     
-        self.gestionGrille = GestionGrille(self.plateau, None, self.etatJeu)
+        self.gestionGrille = GestionGrille(self.plateau, None, self.etatJeu, self.listePiece)
         
         self.fenetre = FenetreJeu(self.plateau.height, self.plateau.width, self.gestionGrille.interaction_grille, self.fin_tour)
 

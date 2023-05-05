@@ -12,15 +12,25 @@ from .etatFenetre import *
 
 
 class GestionGrille():
-    def __init__(self, plateau, fenetre, etatJeu):
+    def __init__(self, plateau, fenetre, etatJeu, listePiece):
         self.plateau = plateau
         self.fenetre = fenetre
         self.etatJeu = etatJeu
+        self.listePiece = listePiece
     
     
     def setFenetre(self, fenetre):
         self.fenetre = fenetre
         
+    
+    def piecesObligatoire(self):
+        piecesAJouer = []
+        for i in list(filter(lambda x: (not x.estMort) and x.orientation != self.etatJeu.tour, self.listePiece)):
+            listeMouvementPossible = i.mouvement_possible()
+            for j in listeMouvementPossible:
+                if j[1] != None:
+                    piecesAJouer += [i]
+        return piecesAJouer
     
     def interaction_grille(self, i, j):
 
@@ -29,7 +39,9 @@ class GestionGrille():
         
         if self.etatJeu.etat == EtatFenetre.IDLE:
 
-            if isinstance(self.plateau.plateau[i][j].contenu, Piece) and self.plateau.plateau[i][j].contenu.orientation == self.etatJeu.tour:
+            if isinstance(self.plateau.plateau[i][j].contenu, Piece) and self.plateau.plateau[i][j].contenu.orientation == self.etatJeu.tour \
+                and self.etatJeu.priseObligatoire == [] \
+                    or self.etatJeu.priseObligatoire != [] and self.plateau.plateau[i][j].contenu in self.etatJeu.priseObligatoire:
                 
                 self.etatJeu.pieceSelectionnee = self.plateau.plateau[i][j].contenu
                 self.etatJeu.mouvementPossible = self.etatJeu.pieceSelectionnee.mouvement_possible()
@@ -42,6 +54,7 @@ class GestionGrille():
             for iMvt in self.etatJeu.mouvementPossible:
                 if iMvt[0].y == i and iMvt[0].x == j:
                     self.etatJeu.pieceSelectionnee.se_deplacer(iMvt)
+                    self.etatJeu.priseObligatoire = self.piecesObligatoire()
                     if iMvt[1] != None and len(list(filter(lambda x: x[1] != None, self.etatJeu.pieceSelectionnee.mouvement_possible())))>0:
                         self.etatJeu.serieEnCours = True   
                         self.etatJeu.etat = EtatFenetre.SELECTION  
