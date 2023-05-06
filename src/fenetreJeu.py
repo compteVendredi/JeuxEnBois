@@ -21,18 +21,23 @@ class FenetreJeu:
         self.frame_texte.pack(side=RIGHT)
         
         self.plateauBouton = [[]]
+        
+        for i in range(1,plateau_height+1):
+            Label(self.frame_jeu, text=i).grid(row=i,column=0)
+        for i in range(1,plateau_width+1):
+            Label(self.frame_jeu, text=chr(ord("A")+i-1)).grid(row=0,column=i)
 
         for i in range(plateau_height):
             for j in range(plateau_width):
                 btn = Button(self.frame_jeu, command=lambda i=i,j=j: comportement_grille(i,j)\
                              , bg=COULEUR_DAMIER1 if (j+(i%2))%2 else COULEUR_DAMIER2)
-                btn.grid(row=i, column=j)
+                btn.grid(row=i+1, column=j+1)
                 self.plateauBouton[i].append(btn)
  
             self.plateauBouton.append([]) 
             
             
-        self.etatPartie = Label(self.frame_texte)
+        self.etatPartie = Text(self.frame_texte)
         self.etatPartie.pack()
         self.btnFinTour = Button(self.frame_texte, text="Fin tour", command=comportement_fin_tour)
         self.btnFinTour.pack()  
@@ -43,7 +48,8 @@ class FenetreJeu:
         
         
     def setEtatPartie(self, texte):
-        self.etatPartie.config(text=texte)
+        self.etatPartie.delete("1.0", END)
+        self.etatPartie.insert(END, texte)
                                   
                                   
     def lancerFenetreJeu(self):

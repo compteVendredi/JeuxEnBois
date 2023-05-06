@@ -12,11 +12,12 @@ from .etatFenetre import *
 
 
 class GestionGrille():
-    def __init__(self, plateau, fenetre, etatJeu, listePiece):
+    def __init__(self, plateau, fenetre, etatJeu, listePiece, actualiserStatutJeu):
         self.plateau = plateau
         self.fenetre = fenetre
         self.etatJeu = etatJeu
         self.listePiece = listePiece
+        self.actualiserStatutJeu = actualiserStatutJeu
     
     
     def setFenetre(self, fenetre):
@@ -67,6 +68,7 @@ class GestionGrille():
                         self.etatJeu.tourFini = True  
                     break
             self.actualiserPlateau()
+            self.actualiserStatutJeu()
 
             if self.etatJeu.serieEnCours:
                 self.etatJeu.mouvementPossible = self.etatJeu.pieceSelectionnee.mouvement_possible()

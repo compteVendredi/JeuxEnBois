@@ -16,6 +16,7 @@ from .etatJeu import *
 from .fenetreMenu import *
 from .IA_BFS import *
 from .typeJeu import *
+from .IA_MLP import *
 
 
 class GestionJeu:
@@ -29,6 +30,11 @@ class GestionJeu:
         self.typeJeu = TypeJeu.DAME   
         self.plateau = None
         self.etatJeu = None  
+        
+    
+    def relancer(self):
+        self.__init__()            
+    
 
     def modeGenerique(self):
         self.fenetre.fermerFenetre()
@@ -38,7 +44,7 @@ class GestionJeu:
 
         self.creer_plateau()
     
-        self.gestionGrille = GestionGrille(self.plateau, None, self.etatJeu, self.listePiece)
+        self.gestionGrille = GestionGrille(self.plateau, None, self.etatJeu, self.listePiece, self.actualiserStatutJeu)
         
         self.fenetre = FenetreJeu(self.plateau.height, self.plateau.width, self.gestionGrille.interaction_grille, self.fin_tour)
 
@@ -48,7 +54,8 @@ class GestionJeu:
 
         self.etatJeu.tourFini = False
         self.changement_joueur() 
-        self.fenetre.lancerFenetreJeu()        
+        self.actualiserStatutJeu()
+        self.fenetre.lancerFenetreJeu()   
 
 
     def jouer(self, modeJeu, modeIA):
@@ -59,7 +66,7 @@ class GestionJeu:
                 self.IA = IA_BFS(self.plateau, self.listePiece, self.campIA)
                 self.modeJcO()
             elif modeIA.get() == "IA_MLP":
-                self.IA = IA_BFS(self.plateau, self.listePiece, self.campIA)
+                self.IA = IA_MLP(self.plateau, self.listePiece, self.campIA)
                 self.modeJcO()
 
     def modeJcJ(self):
@@ -105,16 +112,15 @@ class GestionJeu:
     def changement_joueur(self):
         if self.etatJeu.tour == OrientationPiece.NORD:
             self.etatJeu.tour = OrientationPiece.SUD
-            self.fenetre.setEtatPartie("Tour au NORD")
         else:
             self.etatJeu.tour = OrientationPiece.NORD
-            self.fenetre.setEtatPartie("Tour au SUD")
 
     def fin_tour(self):
         if(self.etatJeu.tourFini):
             self.etatJeu.tourFini = False
             self.changement_joueur()
-            
+            self.actualiserStatutJeu()                        
+
             if not(self.verifierVictoire()):
                 if self.joueContreIA:
                     self.IA.jouer()
@@ -122,8 +128,28 @@ class GestionJeu:
                     self.gestionGrille.actualiserPlateau()
                     if not(self.verifierVictoire()):
                         self.changement_joueur()
+                    self.actualiserStatutJeu()                        
             else:
                 self.fenetre.fermerFenetre()
+                self.relancer()
+                
+
+
+    def actualiserStatutJeu(self):
+        if self.etatJeu.tour == OrientationPiece.NORD:
+            texte_tour = "Tour au SUD"
+        else:
+            texte_tour = "Tour au NORD"
+            
+        priseObligatoire = "Les pièces obligatoires à jouer sont : \n"
+        for i in self.etatJeu.priseObligatoire:
+            priseObligatoire += str(chr(ord("A")+i.location.x)) + ";" + str(i.location.y+1) + "  "
+            
+        serieEnCours = "Serie en cours : " + str(self.etatJeu.serieEnCours)
+        
+        tourFini = "Tour fini : " + str(self.etatJeu.tourFini)
+            
+        self.fenetre.setEtatPartie(texte_tour + "\n" + priseObligatoire + "\n" + serieEnCours + "\n" + tourFini)
 
 
     def lancer(self):
