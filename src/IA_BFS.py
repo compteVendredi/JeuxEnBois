@@ -4,7 +4,7 @@
 import random
 
 
-class IA_random():
+class IA_BFS():
     def __init__(self, plateau, listePiece, campIA):
         self.plateau = plateau
         self.campIA = campIA
@@ -50,7 +50,8 @@ class IA_random():
         action[0].se_deplacer(action[1])
         serie = action[1]
         while serie[1] != None:
-            mouvementRestant = list(map(lambda x: (x,self.calculerScore(action[0],x)), action[0].mouvement_possible()))
+            mouvementRestant = list(map(lambda x: (x,self.calculerScore(action[0],x))\
+                , list(filter(lambda x: x[1] != None, action[0].mouvement_possible()))))
             if mouvementRestant != []:
                 serie = max(mouvementRestant, key=lambda x: x[1])
                 action[0].se_deplacer(serie[0])

@@ -48,3 +48,6 @@ class FenetreJeu:
                                   
     def lancerFenetreJeu(self):
         self.fenetre.mainloop()
+        
+    def fermerFenetre(self):
+        self.fenetre.destroy()        

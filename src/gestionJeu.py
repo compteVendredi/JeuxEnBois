@@ -14,14 +14,14 @@ from .gestionGrille import *
 from .etatFenetre import *
 from .etatJeu import *
 from .fenetreMenu import *
-from .ia import *
+from .IA_BFS import *
 from .typeJeu import *
 
 
 class GestionJeu:
 
     def __init__(self):
-        self.fenetre = FenetreMenu(self.modeJcJ, self.modeJcO)  
+        self.fenetre = FenetreMenu(self.jouer)  
         self.IA = None
         self.joueContreIA = False
         self.campIA = OrientationPiece.NORD
@@ -51,14 +51,23 @@ class GestionJeu:
         self.fenetre.lancerFenetreJeu()        
 
 
+    def jouer(self, modeJeu, modeIA):
+        if modeJeu.get() == "JcJ":
+            self.modeJcJ()
+        elif modeJeu.get() == "JcO":
+            if modeIA.get() == "IA_BFS":
+                self.IA = IA_BFS(self.plateau, self.listePiece, self.campIA)
+                self.modeJcO()
+            elif modeIA.get() == "IA_MLP":
+                self.IA = IA_BFS(self.plateau, self.listePiece, self.campIA)
+                self.modeJcO()
+
     def modeJcJ(self):
         self.modeGenerique()
         
         
     def modeJcO(self):
         self.joueContreIA = True
-        
-        self.IA = IA_random(self.plateau, self.listePiece, self.campIA)
         self.modeGenerique()     
         
 
@@ -109,9 +118,12 @@ class GestionJeu:
             if not(self.verifierVictoire()):
                 if self.joueContreIA:
                     self.IA.jouer()
+                    self.etatJeu.priseObligatoire = self.gestionGrille.piecesObligatoire()
                     self.gestionGrille.actualiserPlateau()
                     if not(self.verifierVictoire()):
                         self.changement_joueur()
+            else:
+                self.fenetre.fermerFenetre()
 
 
     def lancer(self):

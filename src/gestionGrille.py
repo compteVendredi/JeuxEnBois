@@ -93,4 +93,4 @@ class GestionGrille():
                         texte = AFFICHAGE_VIDE
                         couleur = COULEUR_DEFAUT
                         
-                    self.fenetre.setPlateauBouton(i,j,texte,couleur)    
+                    self.fenetre.setPlateauBouton(i,j,texte,couleur)                      
